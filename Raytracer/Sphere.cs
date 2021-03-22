@@ -49,8 +49,9 @@ namespace Raytracer
         /// </summary>
         /// <param name="ray">Ray object which with sphere intersects (or not)</param>
         /// <param name="distance">Max detection distance from ray origin</param>
+        /// <param name="dist">new distance</param>
         /// <returns>Intersection value</returns>
-        public  int countIntersection(Ray ray,  float distance,out float dist)
+        public int countIntersection(Ray ray,  float distance,out float dist)
         {
             dist = distance;
             Vector3 vec = ray.Origin - Center;
@@ -93,12 +94,6 @@ namespace Raytracer
         }
     }
 
-    public class flaot
-    {
-        public static implicit operator flaot(float v)
-        {
-            throw new NotImplementedException();
-        }
-    }
+
 }
 

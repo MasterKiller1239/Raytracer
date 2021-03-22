@@ -86,6 +86,7 @@ namespace Raytracer
         /// </summary>
         /// <param name="ray">Ray object which with plane intersects (or not)</param>
         /// <param name="distance">Max detection distance from ray origin</param>
+        /// <param name="dist">new distance</param>
         /// <returns>Intersection value</returns>
         public int countIntersection(Ray ray, float distance, out float dist)
         {
