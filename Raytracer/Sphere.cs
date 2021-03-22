@@ -6,55 +6,93 @@ using System.Threading.Tasks;
 
 namespace Raytracer
 {
-    struct Sphere
+    public class Sphere
     {
-        public Vector Center;
+        /// <summary>
+        /// Center point of sphere
+        /// </summary>
+        public Vector3 Center;
+        /// <summary>
+        /// Radius of sphere
+        /// </summary>
         public float Radius;
-
-        public static Sphere Create(Vector center, float radius)
+        /// <summary>
+        /// Squared value of radius (optimization purposes)
+        /// </summary>
+        float squareRadius;
+        /// <summary>
+        /// Default constuctor of sphere with center in (0,0,0) and radius 1
+        /// </summary>
+        public Sphere()
         {
-            Sphere s;
-            s.Center = center;
-            s.Radius = radius;
-            return s;
+            this.Center = new Vector3(0f);
+            this.Radius = 1.0f;
+            squareRadius = 1.0f;
         }
 
-        public static bool Hit(Sphere sphere, Ray ray, float tMin, float tMax, out RayHit hit)
+        /// <summary>
+        /// Sphere class constructor
+        /// </summary>
+        /// <param name="vector">Center point of sphere</param>
+        /// <param name="v">Radius of sphere</param>
+
+        public Sphere(Vector3 vector, float v) 
         {
-            Vector center = sphere.Center;
-            Vector oc = ray.Origin - center;
-            Vector rayDir = ray.Direction;
-            float a = Vector.Dot(rayDir, rayDir);
-            float b = Vector.Dot(oc, rayDir);
-            float radius = sphere.Radius;
-            float c = Vector.Dot(oc, oc) - radius * radius;
-            float discriminant = b * b - a * c;
-            if (discriminant > 0)
+            this.Center = vector;
+            this.Radius = v;
+            squareRadius = this.Radius * this.Radius;
+            Console.WriteLine(Center.ToString() + Radius.ToString());
+
+        }
+        /// <summary>
+        /// Counting intersection between sphere and ray
+        /// </summary>
+        /// <param name="ray">Ray object which with sphere intersects (or not)</param>
+        /// <param name="distance">Max detection distance from ray origin</param>
+        /// <returns>Intersection value</returns>
+        public int countIntersection(Ray ray, float distance)
+        {
+            Vector3 vec = ray.Origin - Center;
+            Vector3 rayDirection = ray.Direction;
+            float a = rayDirection.dot(rayDirection);
+            float b = rayDirection.dot(vec);
+            float c = vec.dot(vec) - squareRadius;
+            float det = (b * b) - a * c;
+            int returnValue = 0;
+            if (det > 0.0f)
             {
-                float tmp = MathF.Sqrt(b * b - a * c);
-                float t = (-b - tmp) / a;
-                if (t < tMax && t > tMin)
+                det = MathF.Sqrt(det);
+                float i1 = (-b - det) / a;
+                float i2 = (-b + det) / a;
+                if (i2 > 0)
                 {
-                    Vector position = Ray.PointAt(ray, t);
-                    Vector normal = (position - center) / radius;
-                    hit = RayHit.Create(Ray.PointAt(ray, t), t, normal);
-                    return true;
+                    returnValue =2;
+                    if (i1 < 0 && i2 < distance)
+                    {
+                        distance = i2;
+                    }
+                    else if (i1 < distance)
+                    {
+                        distance = i1;
+                    }
                 }
-                t = (-b + tmp) / a;
-                if (t < tMax && t > tMin)
+            }
+            else if (det==0)
+            {
+                float i0 = -b / a;
+                if (i0 < distance)
                 {
-                    Vector position = Ray.PointAt(ray, t);
-                    Vector normal = (position - center) / radius;
-                    hit = RayHit.Create(position, t, normal);
-                    return true;
+                    distance = i0;
+                    returnValue = 1;
                 }
             }
 
-            hit.Position = new Vector();
-            hit.Normal = new Vector();
-            hit.T = 0;
-            return false;
+            return returnValue;
         }
+
+      
+      
+
     }
 }
-}
+
