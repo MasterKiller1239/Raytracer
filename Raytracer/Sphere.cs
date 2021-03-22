@@ -40,7 +40,7 @@ namespace Raytracer
         {
             this.Center = vector;
             this.Radius = v;
-            squareRadius = this.Radius * this.Radius;
+            squareRadius = v * v;
             Console.WriteLine(Center.ToString() + Radius.ToString());
 
         }
@@ -50,14 +50,15 @@ namespace Raytracer
         /// <param name="ray">Ray object which with sphere intersects (or not)</param>
         /// <param name="distance">Max detection distance from ray origin</param>
         /// <returns>Intersection value</returns>
-        public int countIntersection(Ray ray, float distance)
+        public  int countIntersection(Ray ray,  float distance,out float dist)
         {
+            dist = distance;
             Vector3 vec = ray.Origin - Center;
             Vector3 rayDirection = ray.Direction;
             float a = rayDirection.dot(rayDirection);
             float b = rayDirection.dot(vec);
             float c = vec.dot(vec) - squareRadius;
-            float det = (b * b) - a * c;
+            float det = b * b - a * c;
             int returnValue = 0;
             if (det > 0.0f)
             {
@@ -66,33 +67,38 @@ namespace Raytracer
                 float i2 = (-b + det) / a;
                 if (i2 > 0)
                 {
-                    returnValue =2;
+                    returnValue = 2;
                     if (i1 < 0 && i2 < distance)
                     {
-                        distance = i2;
+                        dist = i2;
                     }
                     else if (i1 < distance)
                     {
-                        distance = i1;
+                        dist = i1;
                     }
                 }
             }
-            else if (det==0)
+            else if (det == 0)
             {
                 float i0 = -b / a;
                 if (i0 < distance)
                 {
-                    distance = i0;
+                    dist = i0;
                     returnValue = 1;
                 }
             }
-
+            else
+                dist = distance;
             return returnValue;
         }
+    }
 
-      
-      
-
+    public class flaot
+    {
+        public static implicit operator flaot(float v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

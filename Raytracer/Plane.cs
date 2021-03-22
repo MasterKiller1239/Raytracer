@@ -87,8 +87,9 @@ namespace Raytracer
         /// <param name="ray">Ray object which with plane intersects (or not)</param>
         /// <param name="distance">Max detection distance from ray origin</param>
         /// <returns>Intersection value</returns>
-        public int countIntersection(Ray ray, float distance)
+        public int countIntersection(Ray ray, float distance, out float dist)
         {
+            dist = distance;
             float nDotV = Normal.dot(ray.Direction);
             int returnValue = 0;
             if (nDotV!=0)
@@ -96,14 +97,12 @@ namespace Raytracer
                 float t = (D - Normal.dot(ray.Origin)) / nDotV;
                 if (t >= 0.001 && distance > t)
                 {
-                    distance = t;
+                    dist = t;
                     returnValue = 1;
                 }
             }
             return returnValue;
             ;
-
         }
-
     }        
 }

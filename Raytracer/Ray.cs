@@ -29,8 +29,25 @@ namespace Raytracer
             Direction = new Vector3(0f);
             destination = new Vector3(0f);
         }
+        /// <summary>
+        /// Setter of Vector3 value destination
+        /// </summary>
+        /// <param name="newDestination">New value of destination</param>
+        public void setDestination(Vector3 newDestination)
+        {
+            destination = newDestination;
+            if (destination.length()!=0)
+            {
+                Direction = new Vector3(destination.normalizeProduct() - Origin);
+               
+            }
+            else
+            {
+                Direction = new Vector3(- Origin);
 
+            }
 
+        }
         /// <summary>
         /// Constructor for Ray
         /// </summary>
@@ -54,7 +71,7 @@ namespace Raytracer
 
         public Vector3 PointAtDistance(float distance)
         {
-            Vector3 temp = new Vector3(Origin + distance * Direction);
+              Vector3 temp = new Vector3(Origin +Direction*distance);
             return temp;
         }
     }
