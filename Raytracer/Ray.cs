@@ -60,7 +60,7 @@ namespace Raytracer
             Direction = direction.normalizeProduct();
           
             this.destination=new Vector3(0f);
-            Console.WriteLine(Origin.ToString() + Direction.ToString());
+          //  Console.WriteLine(Origin.ToString() + Direction.ToString());
         }
 
         /// <summary>

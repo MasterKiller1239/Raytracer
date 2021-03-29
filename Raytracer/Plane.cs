@@ -76,7 +76,7 @@ namespace Raytracer
             Normal = normal.normalizeProduct(); 
             this.planePoint = planePoint;
             D = normal.dot(planePoint);
-            Console.WriteLine(Normal.ToString() + planePoint.ToString());
+          //  Console.WriteLine(Normal.ToString() + planePoint.ToString());
 
         }
 

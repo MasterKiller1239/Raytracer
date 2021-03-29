@@ -11,19 +11,19 @@ namespace Raytracer
     /// </summary>
     public class Vector3
     {
-        private float x;
+        protected float x;
         public float X
         {
             get { return x; }
             set { x = value; }
         }
-        private float y;
+        protected float y;
         public float Y
         {
             get { return y; }
             set { y = value; }
         }
-        private float z;
+        protected float z;
         public float Z
         {
             get { return z; }

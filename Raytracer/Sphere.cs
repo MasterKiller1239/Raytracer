@@ -41,7 +41,7 @@ namespace Raytracer
             this.Center = vector;
             this.Radius = v;
             squareRadius = v * v;
-            Console.WriteLine(Center.ToString() + Radius.ToString());
+           // Console.WriteLine(Center.ToString() + Radius.ToString());
 
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace Raytracer
             int returnValue = 0;
             if (det > 0.0f)
             {
-                det = (float)Math.Sqrt(det);
+                det = (float)MathF.Sqrt(det);
                 float i1 = (-b - det) / a;
                 float i2 = (-b + det) / a;
                 if (i2 > 0)
@@ -91,6 +91,36 @@ namespace Raytracer
             else
                 dist = distance;
             return returnValue;
+        }
+        public int countIntersection(Ray ray)
+        {
+           
+            Vector3 vec = ray.Origin - Center;
+            Vector3 rayDirection = ray.Direction;
+            float a = rayDirection.dot(rayDirection);
+            float b = rayDirection.dot(vec);
+            float c = vec.dot(vec) - squareRadius;
+            float det = b * b - a * c;
+            int returnValue = 0;
+            if (det > 0.0f)
+            {
+                det = (float)MathF.Sqrt(det);
+                float i1 = (-b - det) / a;
+                float i2 = (-b + det) / a;
+                if (i2 > 0)
+                {
+                    returnValue = 2;
+                   
+                }
+            }
+            else if (det == 0)
+            {
+                float i0 = -b / a;
+                return returnValue = 1;
+            }
+          
+                return returnValue;
+
         }
     }
 
