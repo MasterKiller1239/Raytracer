@@ -19,7 +19,16 @@ namespace Raytracer
         {
             r = g = b = 0.0;
         }
-
+        public void Set(double R, double G, double B)
+        {
+            //Console.WriteLine("Czerwony:" + R + "Zielony: " + G + "Niebieski " + B);
+            SetRed(R);
+            SetGreen(G);
+            SetBlue(B);
+        }
+        public double xRed() { return r ; }
+        public double xGreen() { return g ; }
+        public double xBlue() { return b ; }
         public double Red()  { return r * 255; }
         public double Green()  { return g * 255; }
         public double Blue()  { return b * 255; }
@@ -52,7 +61,27 @@ namespace Raytracer
             SetBlue(Blue() + B);
         }
 
-        public void Subtract(double R, double G, double B)
+       public static  Color WeightedAverage(ref List<(Color, double)> colorsAndWeights)
+{
+	double r = 0, g = 0, b = 0;
+        double weightSum = 0;
+	foreach (var tuple in colorsAndWeights)
+	{
+
+                //tuple.Item1.Show();
+                r = r + tuple.Item1.r * tuple.Item2;
+                g = g + tuple.Item1.g * tuple.Item2;
+		        b = b + tuple.Item1.b * tuple.Item2;
+
+		weightSum += tuple.Item2;
+	}
+
+    weightSum = 1 / weightSum;
+            Color baze = new Color(r * weightSum, g * weightSum, b * weightSum);
+          //  baze.Show();
+            return baze;
+}
+public void Subtract(double R, double G, double B)
         {
             SetRed(Red() - R);
             SetGreen(Green() - G);
@@ -60,24 +89,24 @@ namespace Raytracer
         }
         public static Color operator+(Color basic, Color li) 
         {
-	        return new Color(basic.Red() + li.Red(), basic.Green() + li.Green(), basic.Blue() + li.Blue());
+	        return new Color(basic.r + li.r, basic.g + li.g, basic.b + li.b);
         }
         public static Color operator -(Color basic, Color li) 
         {
-	        return new Color(basic.Red() - li.Red(), basic.Green() - li.Green(), basic.Blue() - li.Blue());
+	        return new Color(basic.r - li.r, basic.g - li.g, basic.b - li.b);
         }
 
         public static Color operator*(Color basic, Color li) 
         {
-	        return new Color(basic.Red()* li.Red(), basic.Green()* li.Green(), basic.Blue()* li.Blue());
+	        return new Color(basic.r* li.r, basic.g* li.g, basic.b* li.b);
         }
         public static Color operator /(Color basic, double num)
         {
-            return new Color(basic.Red() / num, basic.Green() / num, basic.Blue() / num);
+            return new Color(basic.r / num, basic.g / num, basic.b / num);
         }
         public static Color operator *(Color basic, double num)
         {
-            return new Color(basic.Red() * num, basic.Green() * num, basic.Blue() * num);
+            return new Color(basic.r * num, basic.g * num, basic.b * num);
         }
         public  Color Average(Color[] colors)
         {
@@ -85,9 +114,9 @@ namespace Raytracer
         double count = 0;
             foreach (Color c in colors)
             {
-                r = r + c.Red();
-		    g = g+ c.Green();
-		    b =b+ c.Blue();
+                r = r + c.r;
+		    g = g+ c.g;
+		    b =b+ c.b;
 		++count;
 	}
 
@@ -95,6 +124,10 @@ namespace Raytracer
 
 	return new Color(r* count, g* count, b* count);
         }
+        public void Show()
+        {
+            Console.WriteLine("Red:" + this.r + "Green:" + this.g + "Blue:" + this.b);
+            }
         public Color GetRandom(double minimum)
         {
             Random rnd = new Random();
@@ -110,5 +143,14 @@ namespace Raytracer
             Random rand = new Random();
             return rand.NextDouble() * (maximum - minimum) + minimum;
         }
+
+        public static Color GetRandom(double minimum, double maximum)
+        {
+           
+            Random rand = new Random();
+            //return new Color(rand.NextDouble() * (maximum - minimum) + minimum, rand.NextDouble() * (maximum - minimum) + minimum, rand.NextDouble() * (maximum - minimum) + minimum);
+            return new Color(rand.NextDouble() * (maximum - minimum) + minimum, rand.NextDouble() * (maximum - minimum) + minimum, rand.NextDouble() * (maximum - minimum) + minimum);
+        }
     }
-}
+    }
+

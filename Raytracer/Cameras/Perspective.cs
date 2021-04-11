@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 namespace Raytracer
 {
-    class Perspective :Camera
+	public class Perspective :Camera
     {
 		public Perspective()
 		{
@@ -24,13 +24,22 @@ namespace Raytracer
 			this.farPlane = 1000;
 			this.up = new Vector3(0, 1, 0);
 		}
-		/// <summary>
-		/// Camera Setup
-		/// </summary>
-		/// <param name="image">Bitmap</param>
-		/// <param name="sfera">Primitives List</param>
 
-		public override void RenderTo(Bitmap image,List<Sphere> sfera)
+        public override Ray GetRayThroughtPixel(ref Vector3 pixel)
+        {
+			Ray ray= new Ray(position,new Vector3(0, 0, 0));
+			ray.distance = farPlane;
+			ray.LookAt(pixel);
+			return ray;
+		}
+
+        /// <summary>
+        /// Camera Setup
+        /// </summary>
+        /// <param name="image">Bitmap</param>
+        /// <param name="sfera">Primitives List</param>
+
+        public override void RenderTo(ref Bitmap image)
 		{
 			int imageWidth = image.Width;
 			int imageHeight = image.Height;
@@ -50,7 +59,8 @@ namespace Raytracer
 			v = w.cross(u);
 			Vector3 c = Position - u * (float)(width * 0.5) - v * (float)(height * 0.5) + target * nearPlane;
 
-			base.RenderInternal(image, c, (float)widthPixel, (float)heightPixel,sfera);
+			//base.RenderInternal(ref image, c, (float)widthPixel, (float)heightPixel,sfera);
+			base.RenderInternal(ref image, ref c, (float)widthPixel, (float)heightPixel);
 
 		}
 		

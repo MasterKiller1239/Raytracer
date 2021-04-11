@@ -11,19 +11,19 @@ namespace Raytracer
     /// </summary>
     public class Vector3
     {
-        protected float x;
+        public float x;
         public float X
         {
             get { return x; }
             set { x = value; }
         }
-        protected float y;
+        public float y;
         public float Y
         {
             get { return y; }
             set { y = value; }
         }
-        protected float z;
+        public float z;
         public float Z
         {
             get { return z; }
@@ -59,6 +59,9 @@ namespace Raytracer
         /// </summary>
         public Vector3()
         {
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
         }
         /// <summary>
         /// Constructor for Vector3 that makes all coordinates the same
@@ -94,7 +97,7 @@ namespace Raytracer
                 return newV;
             }
             else
-                  throw new Exception("Couldn't normalize");
+                return new Vector3(newV);
         }
         public float length()
         {
@@ -158,6 +161,14 @@ namespace Raytracer
         public static Vector3 operator *(Vector3 left, float scalar)
         {
             return new Vector3(left.x * scalar, left.y * scalar, left.z * scalar);
+        }
+        public static Vector3 operator *(double scalar, Vector3 right)
+        {
+            return new Vector3(right.x * (float)scalar, right.y * (float)scalar, right.z * (float)scalar);
+        }
+        public static Vector3 operator *(Vector3 left, double scalar)
+        {
+            return new Vector3(left.x * (float)scalar, left.y * (float)scalar, left.z * (float)scalar);
         }
         public static Vector3 operator *(Vector3 left, Vector3 right)
         {
@@ -229,6 +240,10 @@ namespace Raytracer
             }
             return false;
         }
-    }
+        public Vector3 Reflect(Vector3 normal) 
+{
+	return this - (normal* 2 * this.dot(normal));
+}
+}
 }
 

@@ -9,9 +9,9 @@ namespace Raytracer
     public class HitInfo
     {
 
-        public Vector3 point;
-        public double distance;
-        public Vector3 uvw;
-        public Vector3 normal;
+        public Vector3 point =new Vector3();
+        public double distance =0.0f;
+        public Vector3 uvw = new Vector3();
+        public Vector3 normal = new Vector3();
     }
 }

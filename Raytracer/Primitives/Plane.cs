@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Raytracer
+namespace Raytracer.Primitives
 {
-    struct Plane
+     class Plane : Primitive
     {
-
+        int INT_MAX = 2147483646;
         /// <summary>
         /// Shift the plane along the normalVector from (0,0,0): -D
         /// </summary>
@@ -66,7 +66,7 @@ namespace Raytracer
         /// </summary>
         /// <param name="normal"></param>
         /// <param name="planePoint"></param>
-        public Plane(Vector3 normal, Vector3 planePoint) : this()
+        public Plane(Vector3 planePoint, Vector3 normal) : this()
         {
             if (normal.isZero())
             {
@@ -79,6 +79,87 @@ namespace Raytracer
           //  Console.WriteLine(Normal.ToString() + planePoint.ToString());
 
         }
+
+        public Plane()
+        {
+        }
+
+
+
+        public override int Intersect(ref Ray ray, ref Vector3 hit)
+        {
+            double distance = 0;
+
+            return Intersect(ref ray, ref hit,ref distance);
+        }
+
+        public override int Intersect(ref Ray ray, ref Vector3 hit, ref double distance)
+        {
+            int atFront = 0;
+            distance = 0;
+            Vector3 hitPoint = new Vector3();
+          
+            hitPoint = Intersect(ref ray,ref atFront,ref distance);
+         
+                if (hitPoint.isZero())
+                {
+                    hit = hitPoint;
+                }
+
+                if (atFront == INT_MAX)
+                    hit = ray.Origin;
+            
+
+            return atFront;
+        }
+        public Vector3 Intersect(ref Ray ray,ref int atFront,ref double distance) 
+{
+
+    double up = (planePoint - ray.Origin).dot(Normal);
+        double denom = Normal.dot(ray.Direction);
+
+        distance = -1;
+           //  Console.WriteLine(distance);
+	if (Math.Abs(denom) > 0.00001)
+	{
+		double t = up / denom;
+		if (t >= 0 && t<ray.distance)
+		{
+			if (denom< 0) atFront = 1;
+			else atFront = -1;
+
+			distance = t;
+                  // Console.WriteLine(t);
+			return new Vector3(ray.Origin + (ray.Direction *(float) t));
+		}
+} else if (up < 0.00001)
+{
+    atFront = INT_MAX;
+}
+return new Vector3(0.0f);
+}
+
+        public override int Intersect(ref Ray ray, ref HitInfo hit)
+        {
+            int result = Intersect(ref ray, ref hit.point,ref hit.distance);
+            hit.normal = Normal;
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /// <summary>
@@ -93,7 +174,7 @@ namespace Raytracer
             dist = distance;
             float nDotV = Normal.dot(ray.Direction);
             int returnValue = 0;
-            if (nDotV!=0)
+            if (nDotV != 0)
             {
                 float t = (D - Normal.dot(ray.Origin)) / nDotV;
                 if (t >= 0.001 && distance > t)

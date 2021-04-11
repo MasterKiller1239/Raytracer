@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Raytracer
+namespace Raytracer.Primitives
 {
-    public class Sphere
+    public class Sphere : Primitive
     {
         /// <summary>
         /// Center point of sphere
@@ -44,6 +44,101 @@ namespace Raytracer
            // Console.WriteLine(Center.ToString() + Radius.ToString());
 
         }
+ 
+        public override int Intersect(ref Ray ray, ref Vector3 hit)
+        {
+            double distance=20;
+            int result = Intersect(ref ray, ref hit,ref distance);
+
+            return result;
+        }
+        public bool ContainsPoint(Vector3 point, double tolerance) 
+{
+	return (point - Center).dot(point - Center) - squareRadius <= tolerance;
+}
+    public override int Intersect(ref Ray ray, ref Vector3 hit,ref double distance)
+        {
+            int result = Intersect(ref ray, ref distance);
+           
+            if (result > 0)
+                hit = ray.Origin + ray.Direction * (float)distance;
+            else
+                hit = new Vector3(0.0f);
+
+            return result;
+        }
+
+        public override int Intersect(ref Ray ray, ref HitInfo hit)
+        {
+            int result = Intersect(ref ray, ref hit.point,ref hit.distance);
+            if (result != 0)
+            {
+               //Console.WriteLine(result);
+                hit.normal = (hit.point - this.Center).normalizeProduct();
+             // Console.WriteLine(hit.normal);
+            }
+              
+            return result;
+        }
+        int Intersect(ref Ray ray, ref double distance) 
+        {
+
+            Vector3 v = ray.Origin - Center;
+            double b = -v.dot(ray.Direction);
+            double det = (b * b) - v.dot(v) + Radius * Radius;
+            distance = ray.distance;
+	        int result = 0;
+
+            if (det > 0)
+            {
+                det = Math.Sqrt(det);
+                double t1 = b - det;
+                double t2 = b + det;
+                if (t2 > 0)
+                {
+                    if (t1 < 0)
+                    {
+                        if (t2 < distance)
+                        {
+                            distance = t2;
+                            result = -1;
+                        }
+                    }
+                    else
+                    {
+                        if (t1 < distance)
+                        {
+                            distance = t1;
+                            result = 2;
+                        }
+                    }
+                }
+            }
+            else if (det == 0)
+            {
+                double t0 = b;
+                distance = t0;
+                result = 1;
+            }
+            if (result == 0) distance = -1;
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// Counting intersection between sphere and ray
         /// </summary>
@@ -51,7 +146,7 @@ namespace Raytracer
         /// <param name="distance">Max detection distance from ray origin</param>
         /// <param name="dist">new distance</param>
         /// <returns>Intersection value</returns>
-        public int countIntersection(Ray ray,  float distance,out float dist)
+        public int countIntersection(ref Ray ray, float distance, out float dist)
         {
             dist = distance;
             Vector3 vec = ray.Origin - Center;
@@ -91,36 +186,6 @@ namespace Raytracer
             else
                 dist = distance;
             return returnValue;
-        }
-        public int countIntersection(Ray ray)
-        {
-           
-            Vector3 vec = ray.Origin - Center;
-            Vector3 rayDirection = ray.Direction;
-            float a = rayDirection.dot(rayDirection);
-            float b = rayDirection.dot(vec);
-            float c = vec.dot(vec) - squareRadius;
-            float det = b * b - a * c;
-            int returnValue = 0;
-            if (det > 0.0f)
-            {
-                det = (float)MathF.Sqrt(det);
-                float i1 = (-b - det) / a;
-                float i2 = (-b + det) / a;
-                if (i2 > 0)
-                {
-                    returnValue = 2;
-                   
-                }
-            }
-            else if (det == 0)
-            {
-                float i0 = -b / a;
-                return returnValue = 1;
-            }
-          
-                return returnValue;
-
         }
     }
 

@@ -20,6 +20,8 @@ namespace Raytracer
         /// Point which with ray intersects (it lays on ray's route)
         /// </summary>
         Vector3 destination;
+        public double distance;
+
         /// <summary>
         /// Default constructor for Ray
         /// </summary>
@@ -59,8 +61,18 @@ namespace Raytracer
             Origin = origin;
             Direction = direction.normalizeProduct();
           
-            this.destination=new Vector3(0f);
+            this.distance = 0;
           //  Console.WriteLine(Origin.ToString() + Direction.ToString());
+        }
+
+        public Ray(Vector3 origin, Vector3 direction, double distance)
+        {
+            this.Origin = origin;
+            this.Direction = direction.normalizeProduct();
+
+            this.destination = new Vector3(0f);
+            this.distance = distance;
+            //  Console.WriteLine(Origin.ToString() + Direction.ToString());
         }
 
         /// <summary>
@@ -74,5 +86,42 @@ namespace Raytracer
               Vector3 temp = new Vector3(Origin +Direction*distance);
             return temp;
         }
+        public void LookAt(Vector3 destination)
+        {
+            Direction = (destination - Origin).normalizeProduct();
+        }
+        public  Primitive CastAtPrimitive(ref Ray ray,ref  HitInfo hitInfo, ref List<Primitive> primitives)
+        {
+            Primitive nearestHit = null;
+
+            hitInfo.distance = 10000000;
+
+            foreach (var p in primitives)
+	{
+                HitInfo hi=new HitInfo();
+                int res = p.Intersect(ref ray, ref hi);
+             
+                if (res > 0)
+                {
+                    if (hi.distance < hitInfo.distance)
+                    {
+                        
+                        nearestHit = p;
+                     //   nearestHit.GetMaterial().diffuseColor.Show();
+                        hitInfo = hi;
+                    }
+                }
+            }
+
+            return nearestHit;
+
+        }
+        public static Primitive CastAtPrimitive(ref Ray ray, ref List<Primitive> primitives)
+        {
+            HitInfo hi = new HitInfo();
+            return ray.CastAtPrimitive(ref ray, ref hi, ref primitives);
+
+        }
+
     }
 }

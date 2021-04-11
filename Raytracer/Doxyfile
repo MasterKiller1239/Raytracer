@@ -51,7 +51,7 @@ PROJECT_BRIEF          =
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = D:/Raytracer/Raytracer/ca2061c17d6f4a32978dd541bafed0e4.jpg
+PROJECT_LOGO           = C:/Users/PC/Desktop/fortnite-logo-key-ring-3d-printing-241862.jpg
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
