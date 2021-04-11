@@ -210,7 +210,8 @@ namespace Raytracer
                         Ray nextRay = new Ray(hi.point + nextRayDirection *(float) 0.01, nextRayDirection);
                         mirrorColor = ColorCastAtPrimitive(ref nextRay, depth - 1);
                         //if (depth == 1)
-                        //  mirrorColor.Show();
+                         //if (mirrorColor.xRed() != 0)
+                         //   mirrorColor.Show();
                         combine = true;
                     }
                     if (refractive > 0)
@@ -230,7 +231,8 @@ namespace Raytracer
                         Ray temp = new Ray(hi.point + refractiveDir * (float)0.01, refractiveDir);
                         refractColor = ColorCastAtPrimitive(ref temp, depth - 1);
                         //if (depth == 1)
-                        //    refractColor.Show();
+                        if (refractColor.xRed() != 0)
+                            refractColor.Show();
                         combine = true;
 
                     }

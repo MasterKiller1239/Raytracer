@@ -88,7 +88,7 @@ namespace Raytracer
         }
         public void LookAt(Vector3 destination)
         {
-            Direction = (destination - Origin).normalizeProduct();
+            this.Direction = (destination - Origin).normalizeProduct();
         }
         public  Primitive CastAtPrimitive(ref Ray ray,ref  HitInfo hitInfo, ref List<Primitive> primitives)
         {

@@ -25,5 +25,12 @@ namespace Raytracer
             meshes.Add(m);
             return m;
         }
+        public void Move(Vector3 move)
+        {
+           foreach(var vert in vertices)
+            {
+                vert.add(move);
+            }
+        }
     }
 }

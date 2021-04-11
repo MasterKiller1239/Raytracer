@@ -28,7 +28,7 @@ namespace Raytracer.Lights
            
           //  color.Show();
             double f = (-Lightdir).dot(normal);
-            
+
             //if (hitObject is Plane)
             //{
             //    Console.WriteLine("1");
@@ -39,12 +39,12 @@ namespace Raytracer.Lights
             //    Console.WriteLine(f);
             //    Console.WriteLine("4");
             //}
-                //if (hitObject is Plane)
-                //    hitObject.GetMaterial().diffuseColor.Show();
-                //diffuse
-                mcolor.diffuse = mcolor.diffuse * hitObject.GetMaterial().diffuseColor *color *f  ;
+            //if (hitObject is Plane)
+            //    hitObject.GetMaterial().diffuseColor.Show();
+            //diffuse
+            mcolor.diffuse = mcolor.diffuse * hitObject.GetMaterial().diffuseColor *color *f  ;
           
-          //mcolor.diffuse.Show();
+       //   mcolor.diffuse.Show();
 
 
             //specular

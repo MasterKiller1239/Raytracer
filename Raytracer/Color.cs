@@ -136,7 +136,7 @@ public void Subtract(double R, double G, double B)
 
         public double Difference( Color second) 
         {
-	return Math.Abs(second.Red() - Red()) + Math.Abs(second.Green() - Green()) + Math.Abs(second.Blue() - Blue());
+	return Math.Abs(second.xRed() - xRed()) + Math.Abs(second.xGreen() - xGreen()) + Math.Abs(second.xBlue() - xBlue());
         }
     public static double NextRandomRange(double minimum, double maximum)
         {

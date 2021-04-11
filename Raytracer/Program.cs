@@ -98,6 +98,7 @@ System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Scene scene = new Scene();
             
             Mesh mesh = meshes.meshes[0];
+         //   mesh.obj.Move(new Vector3(0, -1, 0));
             mesh.SetTextureForAllFaces(imagex);
             scene.AddMeshForRendering(ref mesh);
 
