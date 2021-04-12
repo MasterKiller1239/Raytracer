@@ -158,7 +158,7 @@ namespace Raytracer.Primitives
             int returnValue = 0;
             if (det > 0.0f)
             {
-                det = (float)MathF.Sqrt(det);
+                det = (float)Math.Sqrt(det);
                 float i1 = (-b - det) / a;
                 float i2 = (-b + det) / a;
                 if (i2 > 0)

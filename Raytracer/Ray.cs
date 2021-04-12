@@ -16,10 +16,7 @@ namespace Raytracer
         /// Ray direction
         /// </summary>
         public Vector3 Direction;
-        /// <summary>
-        /// Point which with ray intersects (it lays on ray's route)
-        /// </summary>
-        Vector3 destination;
+ 
         public double distance;
 
         /// <summary>
@@ -29,27 +26,9 @@ namespace Raytracer
         {
             Origin = new Vector3(0f);
             Direction = new Vector3(0f);
-            destination = new Vector3(0f);
-        }
-        /// <summary>
-        /// Setter of Vector3 value destination
-        /// </summary>
-        /// <param name="newDestination">New value of destination</param>
-        public void setDestination(Vector3 newDestination)
-        {
-            destination = newDestination;
-            if (destination.length()!=0)
-            {
-                Direction = new Vector3(destination.normalizeProduct() - Origin);
-               
-            }
-            else
-            {
-                Direction = new Vector3(- Origin);
-
-            }
 
         }
+
         /// <summary>
         /// Constructor for Ray
         /// </summary>
@@ -59,10 +38,11 @@ namespace Raytracer
         public Ray(Vector3 origin, Vector3 direction)
         {
             Origin = origin;
+            if(!direction.isZero())
             Direction = direction.normalizeProduct();
-          
-            this.distance = 0;
-          //  Console.WriteLine(Origin.ToString() + Direction.ToString());
+
+            this.distance = 10000000;
+          // Console.WriteLine(Origin.ToString() + Direction.ToString());
         }
 
         public Ray(Vector3 origin, Vector3 direction, double distance)
@@ -70,7 +50,6 @@ namespace Raytracer
             this.Origin = origin;
             this.Direction = direction.normalizeProduct();
 
-            this.destination = new Vector3(0f);
             this.distance = distance;
             //  Console.WriteLine(Origin.ToString() + Direction.ToString());
         }

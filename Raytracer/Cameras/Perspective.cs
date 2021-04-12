@@ -11,7 +11,7 @@ namespace Raytracer
 		public Perspective()
 		{
 			this.position = new Vector3(0, 0, 0);
-			this.target = new Vector3(0, 0, 1);
+			this.direction = new Vector3(0, 0, 1);
 			this.nearPlane = 1;
 			this.farPlane = 1000;
 			this.up = new Vector3(0, 1, 0);
@@ -19,7 +19,7 @@ namespace Raytracer
 		public Perspective(Vector3 position, Vector3 target)
 		{
 			this.position = position;
-			this.target = target;
+			this.direction = target;
 			this.nearPlane = 1;
 			this.farPlane = 1000;
 			this.up = new Vector3(0, 1, 0);
@@ -54,10 +54,10 @@ namespace Raytracer
 
 			minimumPixelSizeForAdaptive = heightPixel / (double)Math.Pow(2.0, adaptiveDepth);
 
-			Vector3 w = -target.normalizeProduct();
+			Vector3 w = -direction.normalizeProduct();
 			u = -(up.cross(w).normalizeProduct());
 			v = w.cross(u);
-			Vector3 c = Position - u * (float)(width * 0.5) - v * (float)(height * 0.5) + target * nearPlane;
+			Vector3 c = Position - u * (float)(width * 0.5) - v * (float)(height * 0.5) + direction * nearPlane;
 
 			//base.RenderInternal(ref image, c, (float)widthPixel, (float)heightPixel,sfera);
 			base.RenderInternal(ref image, ref c, (float)widthPixel, (float)heightPixel);

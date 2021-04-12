@@ -43,8 +43,8 @@ namespace Raytracer.Lights
             //    hitObject.GetMaterial().diffuseColor.Show();
             //diffuse
             mcolor.diffuse = mcolor.diffuse * hitObject.GetMaterial().diffuseColor *color *f  ;
-          
-       //   mcolor.diffuse.Show();
+
+          //  mcolor.diffuse.Show();
 
 
             //specular
