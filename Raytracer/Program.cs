@@ -130,7 +130,7 @@ System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Console.WriteLine("Zapisywanie do pliku obrazu z kamery ort");
             ort.RenderTo(ref image);
 
-             image.Save("F:\\Raytracer\\"  + "xd.jpg");
+             image.Save("D:\\Raytracer\\"  + "xd.jpg");
             //  Perspective per = new Perspective(new Vector3(0.0f, 0.0f, 1.0f), new Vector3(0.0f, 0.0f, -3));
             Perspective per = new Perspective(new Vector3(-0.2f, -0.8f, -2f), new Vector3(0.1f, 0.1f, 1));
             per.Position = new Vector3(0, 0, -3);
@@ -141,7 +141,7 @@ System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Console.WriteLine("Zapisywanie do pliku obrazu z kamery per");
             per.RenderTo(ref image1);
 
-            image1.Save("F:\\Raytracer\\" + "qwrqr.jpg");
+            image1.Save("D:\\Raytracer\\" + "qwrqr.jpg");
             //ort.RenderTo(ref image, spheres);
             //per.RenderTo(image1, spheres);
 

@@ -330,58 +330,58 @@ namespace Raytracer
 
             double colorDifferenceThreshold = 0.1;
 
-            //if (topLeft.Difference(center) > colorDifferenceThreshold)
-            //{
-            //    Color one = new Color(); Color two = new Color();
-            //    Vector3 temp = pixel + u * widthPixel * (-0.25) + v * heightPixel * 0.25;
-            //    GetAdaptivePixelColor(
-            //       ref temp,
-            //        smallerWidthPixel, smallerHeightPixel,
-            //        ref colorsAndWeights,
-            //       ref topLeft, ref one, ref center, ref two,
-            //        new bool[4] { true, false, true, false });
-            //    weightModifier -= 0.25;
+            if (topLeft.Difference(center) > colorDifferenceThreshold)
+            {
+                Color one = new Color(); Color two = new Color();
+                Vector3 temp = pixel + u * widthPixel * (-0.25) + v * heightPixel * 0.25;
+                GetAdaptivePixelColor(
+                   ref temp,
+                    smallerWidthPixel, smallerHeightPixel,
+                    ref colorsAndWeights,
+                   ref topLeft, ref one, ref center, ref two,
+                    new bool[4] { true, false, true, false });
+                weightModifier -= 0.25;
 
-            //}
+            }
 
-            //if (topRight.Difference(center) > colorDifferenceThreshold)
-            //{
-            //    Color one = new Color(); Color two = new Color();
-            //    Vector3 temp = pixel + u * widthPixel * (0.25) + v * heightPixel * 0.25;
-            //    GetAdaptivePixelColor(ref temp
-            //           ,
-            //            smallerWidthPixel, smallerHeightPixel,
-            //           ref colorsAndWeights,
-            //          ref one, ref topRight, ref two, ref center,
-            //            new bool[4] { false, true, false, true });
-            //    weightModifier -= 0.25;
-            //}
+            if (topRight.Difference(center) > colorDifferenceThreshold)
+            {
+                Color one = new Color(); Color two = new Color();
+                Vector3 temp = pixel + u * widthPixel * (0.25) + v * heightPixel * 0.25;
+                GetAdaptivePixelColor(ref temp
+                       ,
+                        smallerWidthPixel, smallerHeightPixel,
+                       ref colorsAndWeights,
+                      ref one, ref topRight, ref two, ref center,
+                        new bool[4] { false, true, false, true });
+                weightModifier -= 0.25;
+            }
 
-            //if (botRight.Difference(center) > colorDifferenceThreshold)
-            //{
-            //    Color one = new Color(); Color two = new Color();
-            //    Vector3 temp = pixel + u * widthPixel * (0.25) + v * heightPixel * (-0.25);
-            //    GetAdaptivePixelColor(ref temp
-            //           ,
-            //            smallerWidthPixel, smallerHeightPixel,
-            //            ref colorsAndWeights,
-            //            ref center, ref one, ref botRight, ref two,
-            //            new bool[4] { true, false, true, false });
-            //    weightModifier -= 0.25;
-            //}
+            if (botRight.Difference(center) > colorDifferenceThreshold)
+            {
+                Color one = new Color(); Color two = new Color();
+                Vector3 temp = pixel + u * widthPixel * (0.25) + v * heightPixel * (-0.25);
+                GetAdaptivePixelColor(ref temp
+                       ,
+                        smallerWidthPixel, smallerHeightPixel,
+                        ref colorsAndWeights,
+                        ref center, ref one, ref botRight, ref two,
+                        new bool[4] { true, false, true, false });
+                weightModifier -= 0.25;
+            }
 
-            //if (botLeft.Difference(center) > colorDifferenceThreshold)
-            //{
-            //    Color one = new Color(); Color two = new Color();
-            //    Vector3 temp = pixel + u * widthPixel * (-0.25) + v * heightPixel * (-0.25);
-            //    GetAdaptivePixelColor(ref temp
-            //          ,
-            //            smallerWidthPixel, smallerHeightPixel,
-            //           ref colorsAndWeights,
-            //         ref center, ref one, ref botLeft, ref two,
-            //            new bool[4] { true, false, true, false });
-            //    weightModifier -= 0.25;
-            //}
+            if (botLeft.Difference(center) > colorDifferenceThreshold)
+            {
+                Color one = new Color(); Color two = new Color();
+                Vector3 temp = pixel + u * widthPixel * (-0.25) + v * heightPixel * (-0.25);
+                GetAdaptivePixelColor(ref temp
+                      ,
+                        smallerWidthPixel, smallerHeightPixel,
+                       ref colorsAndWeights,
+                     ref center, ref one, ref botLeft, ref two,
+                        new bool[4] { true, false, true, false });
+                weightModifier -= 0.25;
+            }
 
             colorsAndWeights.Add((center, startWeight * weightModifier));
 
