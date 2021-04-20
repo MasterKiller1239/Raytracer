@@ -227,23 +227,16 @@ namespace Raytracer
 
                         Ray temp = new Ray(hi.point + refractiveDir * 0.01, refractiveDir);
                         refractColor = ColorCastAtPrimitive(ref temp, depth - 1);
-                        //if (depth == 1)
-                        //if (refractColor.xRed() != 0)
-                        //    refractColor.Show();
+                  
                         combine = true;
 
                     }
 
                     if (combine)
                     {
-                        //if (mirrorColor.xRed() == 0 && mirrorColor.xGreen() == 0 && mirrorColor.xBlue() == 0)
-                        //    mirror = 0;
-                        //if (refractColor.xRed() == 0 && refractColor.xGreen() == 0 && mirrorColor.xBlue() == 0)
-
-                        //    refractive = 0;
+                       
                         Color c = basicColor * (1.0 - mirror - refractive) + mirrorColor * mirror + refractColor * refractive;
 
-                        //   c.Show();
 
 
                         return c;
@@ -251,8 +244,7 @@ namespace Raytracer
 
                     else
                     {
-                        //if (nearestHit is Plane)
-                        //    basicColor.Show();
+                   
                         return basicColor;
                     }
 
@@ -276,12 +268,10 @@ namespace Raytracer
         /// </summary>
         public virtual void GetAdaptivePixelColor(ref Vector3 pixel, double widthPixel, double heightPixel, ref List<(Color, double)> colorsAndWeights, ref Color topLeft, ref Color topRight, ref Color botRight, ref Color botLeft, bool[] tab)
         {
-           // Console.WriteLine("widthPixel: " + widthPixel);
-         //   Console.WriteLine("heightPixel: " + heightPixel);
+      
             Color center = ColorCastAtPrimitiveThroughPixel(ref pixel);
          
-            // center.Show();
-            // Console.ReadLine();
+       
             bool[] done = tab;
             // Console.WriteLine(done[3]);
             if (heightPixel < minimumPixelSizeForAdaptive)
