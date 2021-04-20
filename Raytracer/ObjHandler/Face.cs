@@ -18,13 +18,20 @@ namespace Raytracer
         public int[] triangleData = new int[3];
         public int[] uvData = new int[3];
         public int[] normalData = new int[3];
-
-        public  void SetMesh(Mesh m)
+        /// <summary>
+        /// mesh setter
+        /// </summary>
+        /// <param name="m">mesh</param>
+     
+        public void SetMesh(Mesh m)
         {
             mesh = m;
             ObjFile obj1 = m.obj;
             obj = obj1;
         }
+        /// <summary>
+        /// Get Triangle
+        /// </summary>
 
         public Triangle GetTriangle()
         {
@@ -32,8 +39,11 @@ namespace Raytracer
                 UpdateTriangle();
             return  triangle;
         }
+        /// <summary>
+        ///  Update Triangle
+        /// </summary>
 
-        public  void UpdateTriangle()
+        public void UpdateTriangle()
         {
             //if (triangle != null)
                 

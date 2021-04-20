@@ -10,6 +10,11 @@ namespace Raytracer
 {
     class ObjReader
     {
+        /// <summary>
+		/// Proccess face
+		/// </summary>
+		/// <param name=" f">string of faces</param>
+        /// <param name=" currentMesh">currentMesh</param>
 		public void ProcessFace(string[] f,ref Mesh currentMesh)
         {
             int[,] faceData = new int[3,3];
@@ -23,7 +28,7 @@ namespace Raytracer
                 int iterator = 0;
                 foreach ( string  s in splitted)
                 {
-                    //std::cout << '"' << s << '"' << '\n';
+                 
                     if (s == "") faceData[i - 1,iterator] = -1;
                     else faceData[i - 1,iterator] = Int32.Parse(s);
                     ++iterator;
@@ -32,7 +37,11 @@ namespace Raytracer
 
             currentMesh.AddFace(faceData);
         }
-    public  Vector3 parseFromStringsToVector3(string x, string y,string z)
+        /// <summary>
+        /// Parse Strings to Vector3
+        /// </summary>
+        /// <param name=" x,y,z">3 vector args</param>
+        public Vector3 parseFromStringsToVector3(string x, string y,string z)
         {
             string fixx = x.Replace(".", ",");
             string fixy = y.Replace(".", ",");
@@ -43,6 +52,10 @@ namespace Raytracer
             //  return new Vector3((float)Double.Parse(fixx, NumberStyles.AllowLeadingSign), (float)Double.Parse(fixy, NumberStyles.AllowLeadingSign), (float)Double.Parse(fixz, NumberStyles.AllowLeadingSign));
 
         }
+        /// <summary>
+		/// Parse obj file
+		/// </summary>
+		/// <param name=" filename">name of the obj file</param>
         public ObjFile ReadFromFile(string filename)
         {
 

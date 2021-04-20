@@ -39,7 +39,7 @@ namespace Raytracer
         {
             Origin = origin;
             if(!direction.isZero())
-            Direction = direction.normalizeProduct();
+            Direction = direction.GetNormalized();
 
             this.distance = 10000000;
           // Console.WriteLine(Origin.ToString() + Direction.ToString());
@@ -48,12 +48,15 @@ namespace Raytracer
         public Ray(Vector3 origin, Vector3 direction, double distance)
         {
             this.Origin = origin;
-            this.Direction = direction.normalizeProduct();
+            this.Direction = direction.GetNormalized();
 
             this.distance = distance;
             //  Console.WriteLine(Origin.ToString() + Direction.ToString());
         }
-
+        public void Show()
+        {
+            Console.WriteLine(Origin.ToString() + Direction.ToString()+distance);
+        }
         /// <summary>
         /// Get point at distance from ray
         /// </summary>
@@ -67,27 +70,27 @@ namespace Raytracer
         }
         public void LookAt(Vector3 destination)
         {
-            this.Direction = (destination - Origin).normalizeProduct();
+            this.Direction = (destination - Origin).GetNormalized();
         }
-        public  Primitive CastAtPrimitive(ref Ray ray,ref  HitInfo hitInfo, ref List<Primitive> primitives)
+        public  Primitive CastAtPrimitive(ref Ray ray,ref  HitInfo best, ref List<Primitive> primitives)
         {
             Primitive nearestHit = null;
 
-            hitInfo.distance = 10000000;
+            best.distance = 10000000;
 
             foreach (var p in primitives)
-	{
+	        {
                 HitInfo hi=new HitInfo();
                 int res = p.Intersect(ref ray, ref hi);
              
                 if (res > 0)
                 {
-                    if (hi.distance < hitInfo.distance)
+                    if (hi.distance < best.distance)
                     {
                         
                         nearestHit = p;
-                     //   nearestHit.GetMaterial().diffuseColor.Show();
-                        hitInfo = hi;
+                        //   nearestHit.GetMaterial().diffuseColor.Show();
+                        best = hi;
                     }
                 }
             }

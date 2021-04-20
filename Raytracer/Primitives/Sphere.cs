@@ -44,7 +44,15 @@ namespace Raytracer.Primitives
            // Console.WriteLine(Center.ToString() + Radius.ToString());
 
         }
- 
+        public bool ContainsPoint(Vector3 point, double tolerance)
+        {
+            return (point - Center).dot(point - Center) - squareRadius <= tolerance;
+        }
+        ///<summary>
+        ///Sprawdza, czy dany promień przecina sferę.
+        ///Zwraca 0, gdy nie ma przecięcia. Zwraca 1, gdy promień jest styczną. Zwraca 2, gdy promieć jest cięciwą.
+        ///Podany przez referencję Vector3 przyjmie wartość bliższego punktu przecięcia.
+        ///</summary>
         public override int Intersect(ref Ray ray, ref Vector3 hit)
         {
             double distance=20;
@@ -52,10 +60,7 @@ namespace Raytracer.Primitives
 
             return result;
         }
-        public bool ContainsPoint(Vector3 point, double tolerance) 
-{
-	return (point - Center).dot(point - Center) - squareRadius <= tolerance;
-}
+ 
     public override int Intersect(ref Ray ray, ref Vector3 hit,ref double distance)
         {
             int result = Intersect(ref ray, ref distance);
@@ -74,8 +79,8 @@ namespace Raytracer.Primitives
             if (result != 0)
             {
                //Console.WriteLine(result);
-                hit.normal = (hit.point - this.Center).normalizeProduct();
-             // Console.WriteLine(hit.normal);
+                hit.normal = (hit.point - this.Center).GetNormalized();
+            
             }
               
             return result;

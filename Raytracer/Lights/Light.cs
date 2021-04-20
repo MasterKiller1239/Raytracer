@@ -12,21 +12,34 @@ namespace Raytracer.Lights
     {
         public Vector3 position;
         public Color color;
+        /// <summary>
+        /// Light class constructor
+        /// </summary>
+        /// <param name="position">Position of light</param>
+        /// <param name="color">color of light</param>
         public Light(Vector3 position, Color color)
         {
             this.position = position;
             this.color = color;
         }
 
+        /// <summary>
+        /// Phong light model
+        /// </summary>
+        /// <param name="Lightdir">Lightdir</param>
+        /// <param name="LookDir">LookDir</param>
+        /// /// <param name="normal">normal</param>
+        /// <param name="mcolor">mcolor</param>
+        /// <param name="material">material</param>
         public virtual void Phong(
        ref Vector3 Lightdir,ref Vector3 LookDir,ref Vector3 normal, ref
         MultiColor mcolor,
-       ref Primitive hitObject)
+        Material material)
         {
-             double specForce;
-            
-           
-          //  color.Show();
+             double specForce=0;
+          //  mcolor.specular.Show();
+
+           //   this.color.Show();
             double f = (-Lightdir).dot(normal);
 
             //if (hitObject is Plane)
@@ -42,20 +55,37 @@ namespace Raytracer.Lights
             //if (hitObject is Plane)
             //    hitObject.GetMaterial().diffuseColor.Show();
             //diffuse
-            mcolor.diffuse = mcolor.diffuse * hitObject.GetMaterial().diffuseColor *color *f  ;
-
-          //  mcolor.diffuse.Show();
-
-
+            mcolor.diffuse = mcolor.diffuse * material.diffuseColor *color * (-Lightdir).dot(normal);
+            //if (!mcolor.diffuse.isZero())
+            //    mcolor.diffuse.Show();
+            //Console.WriteLine(Lightdir.ToString());
+            //Console.WriteLine("---------------");
+            //Console.WriteLine(normal);
             //specular
-            specForce = LookDir.dot(Lightdir.Reflect(normal));
+            specForce = (LookDir).dot(Lightdir.Reflect(normal));
+            
             if (specForce < 0) specForce = 0;
+     
+            //    mcolor.specular.Show();
+            mcolor.specular *=  material.specularColor * color * Math.Pow(specForce, material.shininess);
+            //if (!mcolor.specular.isZero() && !mcolor.specular.isOne())
+            //    mcolor.specular.Show();
+            //if (!mcolor.specular.isZero() && !mcolor.specular.isOne())
+            //{
+            //    Console.WriteLine("1");
+            //    mcolor.specular.Show();
+            //    Console.WriteLine("2");
+            //    material.specularColor.Show();
+            //    Console.WriteLine("3");
+            //    //Console.WriteLine(specForce);
+            //    //Console.WriteLine("4");
+            //    Console.WriteLine(Math.Pow(specForce, material.shininess));
 
-            mcolor.specular = mcolor.specular * hitObject.GetMaterial().specularColor * color * Math.Pow(specForce, hitObject.GetMaterial().shininess);
+            //}
 
-           
 
-        }
+
+            }
 
         public abstract void TestColor(ref Ray ray, ref HitInfo hit, ref Primitive hitObject, ref List<Primitive> shapes,
            ref MultiColor color);
@@ -65,3 +95,19 @@ namespace Raytracer.Lights
 
 
 }
+//if (specForce > 0)
+//    Console.WriteLine(specForce);
+//if (!mcolor.specular.isZero())
+//{
+//    Console.WriteLine("1");
+//    mcolor.specular.Show();
+//    Console.WriteLine("2");
+//    material.specularColor.Show();
+//    Console.WriteLine("3");
+//    Console.WriteLine(specForce);
+//}
+
+//Console.WriteLine(specForce);
+//Console.WriteLine("-------------------------");
+//Console.WriteLine(material.shininess); 
+//if (!mcolor.specular.isZero() && !mcolor.specular.isOne())

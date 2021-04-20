@@ -44,7 +44,7 @@ namespace Raytracer.Primitives
             {
                Console.WriteLine("Plane normal vector cannot be zero!");
             }
-            Normal = temp.normalizeProduct();
+            Normal = temp.GetNormalized();
             if (c==0)
             {
                 planePoint = new Vector3(0.0f, 0.0f, -d / c);
@@ -73,7 +73,7 @@ namespace Raytracer.Primitives
                 
                 Console.WriteLine("Plane normal vector cannot be zero!");
             }
-            Normal = normal.normalizeProduct(); 
+            Normal = normal.GetNormalized(); 
             this.planePoint = planePoint;
             D = normal.dot(planePoint);
           //  Console.WriteLine(Normal.ToString() + planePoint.ToString());
@@ -86,6 +86,11 @@ namespace Raytracer.Primitives
 
 
 
+        ///<summary>
+        ///Sprawdza, czy dany promień przecina plane'a.
+        ///Zwraca 0, gdy nie ma przecięcia. Zwraca 1, gdy promień trafi
+        ///Podany przez referencję Vector3 przyjmie wartość bliższego punktu przecięcia.
+        ///</summary>
         public override int Intersect(ref Ray ray, ref Vector3 hit)
         {
             double distance = 0;
@@ -97,19 +102,19 @@ namespace Raytracer.Primitives
         {
             int atFront = 0;
             distance = 0;
-            Vector3 hitPoint = new Vector3();
-          
-            hitPoint = Intersect(ref ray,ref atFront,ref distance);
-         
-                if (hitPoint.isZero())
+        
+
+            Vector3 hitPoint = Intersect(ref ray, ref atFront, ref distance);
+
+            if (!hitPoint.isZero())
                 {
                     hit = hitPoint;
                 }
 
                 if (atFront == INT_MAX)
                     hit = ray.Origin;
-            
 
+           
             return atFront;
         }
         public Vector3 Intersect(ref Ray ray,ref int atFront,ref double distance) 
@@ -130,19 +135,20 @@ namespace Raytracer.Primitives
 
 			distance = t;
                   // Console.WriteLine(t);
-			return new Vector3(ray.Origin + (ray.Direction *(float) t));
+			return new Vector3(ray.Origin + (ray.Direction * t));
 		}
 } else if (up < 0.00001)
 {
     atFront = INT_MAX;
 }
-return new Vector3(0.0f);
+return new Vector3(0);
 }
 
         public override int Intersect(ref Ray ray, ref HitInfo hit)
         {
             int result = Intersect(ref ray, ref hit.point,ref hit.distance);
             hit.normal = Normal;
+          //  Console.WriteLine(hit.normal);
             return result;
         }
 

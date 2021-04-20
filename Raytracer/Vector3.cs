@@ -87,7 +87,7 @@ namespace Raytracer
             }
             //else
         }
-        public Vector3 normalizeProduct()
+        public Vector3 GetNormalized()
         {
             Vector3 newV = new Vector3(this.x, this.y, this.z);
             float n = this.length();

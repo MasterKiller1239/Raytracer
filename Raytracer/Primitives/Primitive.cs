@@ -10,8 +10,8 @@ namespace Raytracer
    public abstract class Primitive
     {
         Material material = new Material();
-
-        public abstract int Intersect(ref Ray ray, ref Vector3 hit);
+        public String name = null;
+        public abstract int Intersect(ref  Ray ray, ref Vector3 hit);
      
         public abstract int Intersect(ref Ray ray, ref Vector3 hit, ref double distance);
         public abstract int Intersect(ref Ray ray, ref HitInfo hit) ;

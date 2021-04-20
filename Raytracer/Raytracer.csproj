@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="arni.bmp" />
     <None Remove="Doxyfile" />
+    <None Remove="qwrqr.jpg" />
+    <None Remove="xd.jpg" />
   </ItemGroup>
 
   <ItemGroup>

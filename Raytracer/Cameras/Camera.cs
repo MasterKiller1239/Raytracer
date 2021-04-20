@@ -132,13 +132,14 @@ namespace Raytracer
                         System.Drawing.Color tem = triHit.GetMaterial().texture.GetPixel(texX, texY);
 
 
-                        baze.diffuse.Set(tem.R / 255.0, tem.G / 255.0, tem.B / 255.0);
+                        baze.diffuse.Set(tem.R, tem.G , tem.B);
 
                     }
                     else if (nearestHit is Sphere)
                     {
                         sphHit = nearestHit as Sphere;
                         Console.WriteLine("xD1");
+                        Console.ReadLine();
                         Vector3 hit = (hi.point - sphHit.Center) / sphHit.Radius;
                         double theta, phi;
                         Vector3 texUV = new Vector3();
@@ -163,77 +164,68 @@ namespace Raytracer
                         int texX = (int)((sphHit.GetMaterial().texture.Height - 1) * texUV.y);
                         System.Drawing.Color tem = sphHit.GetMaterial().texture.GetPixel(texX, texY);
                         //Console.WriteLine((tem.R / 255.0) + "," + (tem.G / 255.0) + "," + (tem.B / 255.0));
-                        baze.diffuse.Set(tem.R / 255.0, tem.G / 255.0, tem.B / 255.0);
+                        baze.diffuse.Set(tem.R, tem.G, tem.B );
                         //  baze.diffuse.Set(sphHit.GetMaterial().diffuseColor.Red(), sphHit.GetMaterial().diffuseColor.Green(), sphHit.GetMaterial().diffuseColor.Blue());
 
                     }
 
                 }
-
-
+              
+                Color basicColor = new Color();
                 MultiColor result = new MultiColor();
+                //if (!baze.specular.isZero() && !baze.specular.isOne())
+                //    baze.specular.Show();
                 foreach (Light l in scene.lights)
                 {
-                    MultiColor tmpColor = baze;
+                    MultiColor tmpColor = new MultiColor();
+                    tmpColor.diffuse = baze.diffuse;
+                    tmpColor.specular = baze.specular;
+                   
                     l.TestColor(ref ray, ref hi, ref nearestHit, ref scene.primitives, ref tmpColor);
-                    //tmpColor.diffuse.Show();
+               
                     result.diffuse = result.diffuse + tmpColor.diffuse;
                     result.specular = result.specular + tmpColor.specular;
-                    //if (nearestHit is Plane)
-                    //    tmpColor.specular.Show();
-                    //result.diffuse.Show();
+                  
                 }
 
-                Color basicColor = result.diffuse + result.specular + scene.ambientColor * nearestHit.GetMaterial().diffuseColor;
-                //if (nearestHit is Plane)
-                //{
-                //    Console.WriteLine("1");
-                //    result.diffuse.Show();
-                //    Console.WriteLine("2");
-                //    result.specular.Show();
-                //    Console.WriteLine("3");
-                //    basicColor.Show();
-                //}
-                //  basicColor.Show();
+   
+                basicColor = result.diffuse + result.specular + scene.ambientColor * nearestHit.GetMaterial().diffuseColor;
+           
                 double mirror = nearestHit.GetMaterial().mirror;
                 double refractive = nearestHit.GetMaterial().refractive;
 
                 if (depth > 0)
                 {
-                    //  depth -= 1;
-                    //if (mirror > 0)
-                    //  Console.WriteLine(mirror);
+                 
                     Color mirrorColor = new Color();
-                    //mirrorColor.Show();
+                   
                     Color refractColor = new Color();
                     bool combine = false;
                     if (mirror > 0)
                     {
 
                         Vector3 nextRayDirection = ray.Direction.Reflect(hi.normal);
-                        Ray nextRay = new Ray(hi.point + nextRayDirection * (float)0.01, nextRayDirection);
+                        Ray nextRay = new Ray(hi.point + nextRayDirection *0.01, nextRayDirection);
                         mirrorColor = ColorCastAtPrimitive(ref nextRay, depth - 1);
-                        //if (depth == 1)
-                        //if (mirrorColor.xRed() != 0)
-                        //   mirrorColor.Show();
+                    
                         combine = true;
 
                     }
                     if (refractive > 0)
                     {
-                        Vector3 refractiveDir = (ray.Direction - hi.normal * (float)(nearestHit.GetMaterial().refractiveIndex - 1)).normalizeProduct();
+                        Vector3 refractiveDir = (ray.Direction - hi.normal * (nearestHit.GetMaterial().refractiveIndex - 1)).GetNormalized();
                         Ray insideRay = new Ray(hi.point - refractiveDir, refractiveDir);
                         HitInfo outHit = new HitInfo();
                         int secondResult = nearestHit.Intersect(ref insideRay, ref outHit);
                         if (secondResult == -1)
                         {
 
-                            Vector3 refractiveDir2 = (insideRay.Direction + outHit.normal * (float)(1 - nearestHit.GetMaterial().refractiveIndex)).normalizeProduct();
-                            Ray movedRay = new Ray(outHit.point + refractiveDir2 * (float)0.01, refractiveDir2);
+                            Vector3 refractiveDir2 = (insideRay.Direction + outHit.normal * (1 - nearestHit.GetMaterial().refractiveIndex)).GetNormalized();
+                            Ray movedRay = new Ray(outHit.point + refractiveDir2 * 0.01, refractiveDir2);
                             refractColor = ColorCastAtPrimitive(ref movedRay, depth - 1);
                         }
 
-                        Ray temp = new Ray(hi.point + refractiveDir * (float)0.01, refractiveDir);
+                        Ray temp = new Ray(hi.point + refractiveDir * 0.01, refractiveDir);
                         refractColor = ColorCastAtPrimitive(ref temp, depth - 1);
                         //if (depth == 1)
                         //if (refractColor.xRed() != 0)
@@ -279,12 +271,17 @@ namespace Raytracer
 
         }
         public abstract Ray GetRayThroughtPixel(ref Vector3 pixel);
-
+        /// <summary>
+        /// get color of the pixel
+        /// </summary>
         public virtual void GetAdaptivePixelColor(ref Vector3 pixel, double widthPixel, double heightPixel, ref List<(Color, double)> colorsAndWeights, ref Color topLeft, ref Color topRight, ref Color botRight, ref Color botLeft, bool[] tab)
         {
-
+           // Console.WriteLine("widthPixel: " + widthPixel);
+         //   Console.WriteLine("heightPixel: " + heightPixel);
             Color center = ColorCastAtPrimitiveThroughPixel(ref pixel);
+         
             // center.Show();
+            // Console.ReadLine();
             bool[] done = tab;
             // Console.WriteLine(done[3]);
             if (heightPixel < minimumPixelSizeForAdaptive)
@@ -295,12 +292,13 @@ namespace Raytracer
             }
 
             double startWeight = widthPixel * heightPixel;
-
+          //  Console.WriteLine("Start:            " + startWeight);
             if (!done[0]) //TOP LEFT
             {
                 Vector3 temp = pixel + u * (float)(widthPixel * (-0.5)) + v * (float)(heightPixel * 0.5);
                 topLeft = ColorCastAtPrimitiveThroughPixel(ref temp
                     );
+
             }
             if (!done[1]) //TOP RIGHT
             {
@@ -323,7 +321,8 @@ namespace Raytracer
                        );
 
             }
-
+       
+            
             //RECURSIVE
             double smallerWidthPixel = widthPixel * 0.5, smallerHeightPixel = heightPixel * 0.5;
             double weightModifier = 1;
@@ -341,6 +340,7 @@ namespace Raytracer
                    ref topLeft, ref one, ref center, ref two,
                     new bool[4] { true, false, true, false });
                 weightModifier -= 0.25;
+            
 
             }
 
@@ -355,6 +355,7 @@ namespace Raytracer
                       ref one, ref topRight, ref two, ref center,
                         new bool[4] { false, true, false, true });
                 weightModifier -= 0.25;
+               
             }
 
             if (botRight.Difference(center) > colorDifferenceThreshold)
@@ -368,6 +369,7 @@ namespace Raytracer
                         ref center, ref one, ref botRight, ref two,
                         new bool[4] { true, false, true, false });
                 weightModifier -= 0.25;
+             
             }
 
             if (botLeft.Difference(center) > colorDifferenceThreshold)
@@ -381,16 +383,22 @@ namespace Raytracer
                      ref center, ref one, ref botLeft, ref two,
                         new bool[4] { true, false, true, false });
                 weightModifier -= 0.25;
+           
             }
-
+            //Console.WriteLine("Start: " + startWeight);
+            //Console.WriteLine("Mod: " + weightModifier);
+           
             colorsAndWeights.Add((center, startWeight * weightModifier));
 
         }
-
+        /// <summary>
+        /// Camera Setup
+        /// </summary>
         public void RenderInternal(ref Bitmap img, ref Vector3 c, double widthPixel, double heightPixel)
         {
             int imgWidth = img.Width;
             int imgHeight = img.Height;
+            
             for (int k = 0; k < imgHeight; k++)
             {
                 Color one = new Color();
@@ -403,7 +411,8 @@ namespace Raytracer
                     ref colorsAndWeights,
                    ref one, ref two, ref three, ref four,
                     new bool[4] { false, false, false, false });
-                // Color.WeightedAverage(ref colorsAndWeights).Show();
+            
+               
                 SetPixelColor(ref img, 0, k, Color.WeightedAverage(ref colorsAndWeights));
                 colorsAndWeights.Clear();
 
@@ -413,12 +422,19 @@ namespace Raytracer
                     if (j % 2 == 1)
                     {
                         Vector3 tem = c + u * (j + 0.5) * widthPixel + v * (k + 0.5) * heightPixel;
+                        //Console.WriteLine(tem);
+                        //Console.ReadLine();
                         GetAdaptivePixelColor(ref tem
                           ,
                            widthPixel, heightPixel,
                           ref colorsAndWeights,
                            ref one, ref two, ref three, ref four,
                            new bool[4] { false, true, true, false });
+                        //if (!Color.WeightedAverage(ref colorsAndWeights).isZero())
+                        //{
+                        //    Color.WeightedAverage(ref colorsAndWeights).Show();
+                        //    Console.ReadLine();
+                        //}
                     }
 
                     else
@@ -430,9 +446,14 @@ namespace Raytracer
                           ref colorsAndWeights,
                           ref two, ref one, ref four, ref three,
                            new bool[4] { false, true, true, false });
+                      
                     }
-
-
+                    //if (!Color.WeightedAverage(ref colorsAndWeights).isZero())
+                    //{
+                    //    Color.WeightedAverage(ref colorsAndWeights).Show();
+                    //    Console.ReadLine();
+                    //}
+                    // Color.WeightedAverage(ref colorsAndWeights).Show();
                     SetPixelColor(ref img, j, k, Color.WeightedAverage(ref colorsAndWeights));
                     colorsAndWeights.Clear();
 
@@ -449,6 +470,13 @@ namespace Raytracer
         }
         public void SetPixelColor(ref Bitmap image, int x, int y, Color c)
         {
+            if (!c.isZero())
+            {
+               // Console.WriteLine(System.Drawing.Color.FromArgb(c.iRed(), c.iGreen(), c.iBlue()).ToString());
+               // c.iShow();
+               // Console.ReadLine();
+            }
+
             image.SetPixel(x, y, System.Drawing.Color.FromArgb(c.iRed(), c.iGreen(), c.iBlue()));
         }
 

@@ -26,7 +26,7 @@ namespace Raytracer.Primitives
 			e2 = c - a;
 			try
 			{
-				this.normal = ((e1).cross(e2)).normalizeProduct();
+				this.normal = ((e1).cross(e2)).GetNormalized();
 			}
 			catch (Exception e)
 		{

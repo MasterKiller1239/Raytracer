@@ -19,9 +19,9 @@ namespace Raytracer
         public void Set(double R, double G, double B)
         {
             //Console.WriteLine("Czerwony:" + R + "Zielony: " + G + "Niebieski " + B);
-            SetRed(R);
-            SetGreen(G);
-            SetBlue(B);
+            SetRed(R * 0.00390625);
+            SetGreen(G * 0.00390625);
+            SetBlue(B * 0.00390625);
         }
         public double xRed() { return r; }
         public double xGreen() { return g; }
@@ -30,9 +30,24 @@ namespace Raytracer
         public double Green() { return g * 255; }
         public double Blue() { return b * 255; }
         public int iRed() { return (int)(r * 255); }
-        public int iGreen() { return (int)g * 255; }
-        public int iBlue() { return (int)b * 255; }
-
+        public int iGreen() { return (int)(g * 255); }
+        public int iBlue() { return (int)(b * 255); }
+        public bool isZero()
+        {
+            if (r== 0 && g== 0 && b== 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool isOne()
+        {
+            if (r == 1 && g == 1 && b == 1)
+            {
+                return true;
+            }
+            return false;
+        }
         public void SetRed(double v)
         {
             if (v < 0) r = 0;
@@ -64,18 +79,27 @@ namespace Raytracer
             double weightSum = 0;
             foreach (var tuple in colorsAndWeights)
             {
-
+                //  Console.WriteLine(tuple.Item2);
                 //tuple.Item1.Show();
-                r = r + tuple.Item1.r * tuple.Item2;
-                g = g + tuple.Item1.g * tuple.Item2;
-                b = b + tuple.Item1.b * tuple.Item2;
-
+                r += tuple.Item1.r * tuple.Item2;
+                g += tuple.Item1.g * tuple.Item2;
+                b += tuple.Item1.b * tuple.Item2;
+                //r = r + tuple.Item1.r * tuple.Item2 * 10;
+                //g = g + tuple.Item1.g * tuple.Item2 * 10;
+                //b = b + tuple.Item1.b * tuple.Item2 * 10;
+                //r = r + tuple.Item1.r * tuple.Item2 * 5;
+                //g = g + tuple.Item1.g * tuple.Item2 * 5;
+                //b = b + tuple.Item1.b * tuple.Item2 * 5;
+                // Console.WriteLine(tuple.Item1.r + "," + tuple.Item1.g + ","+ tuple.Item1.b);
                 weightSum += tuple.Item2;
             }
 
-            weightSum = 1 / weightSum;
+            weightSum = 1 /( weightSum);
+          //  if(r>0)
+            //Console.WriteLine(r * weightSum + "-" + g * weightSum + "-"+ b * weightSum);
             Color baze = new Color(r * weightSum, g * weightSum, b * weightSum);
-            //  baze.Show();
+            //if (r > 0)
+            //    baze.Show();
             return baze;
         }
         public void Subtract(double R, double G, double B)
@@ -105,21 +129,10 @@ namespace Raytracer
         {
             return new Color(basic.r * num, basic.g * num, basic.b * num);
         }
-        public Color Average(Color[] colors)
+    
+        public void iShow()
         {
-            double r = 0, g = 0, b = 0;
-            double count = 0;
-            foreach (Color c in colors)
-            {
-                r = r + c.r;
-                g = g + c.g;
-                b = b + c.b;
-                ++count;
-            }
-
-            count = 1 / count;
-
-            return new Color(r * count, g * count, b * count);
+            Console.WriteLine("Red:" + this.iRed() + "Green:" + this.iGreen() + "Blue:" + this.iBlue());
         }
         public void Show()
         {

@@ -50,8 +50,8 @@ namespace Raytracer
 
             minimumPixelSizeForAdaptive = heightPixel / (double)Math.Pow(2.0, adaptiveDepth);
 
-            Vector3 w = -direction.normalizeProduct();
-            u = -(up.cross(w).normalizeProduct());
+            Vector3 w = -direction.GetNormalized();
+            u = -(up.cross(w).GetNormalized());
             v = w.cross(u);
             Vector3 c = Position - u * (float)(width * 0.5) - v * (float)(height * 0.5);
 

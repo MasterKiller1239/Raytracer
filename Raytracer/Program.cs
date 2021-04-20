@@ -45,12 +45,12 @@ namespace Raytracer
             //  Console.WriteLine("Closest intersection point:" + ray2.PointAtDistance(distance4).ToString() + "\n");
 
             //ZAD2
-            string path = Directory.GetCurrentDirectory() + "\\arni.bmp";
+            string path = Directory.GetCurrentDirectory() + "\\1a.bmp";
             Bitmap imagex = new Bitmap(path);
             Bitmap image = new Bitmap(1024, 1024,
-System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+System.Drawing.Imaging.PixelFormat.Format32bppRgb);
             Bitmap image1 = new Bitmap(1024, 1024,
-System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+System.Drawing.Imaging.PixelFormat.Format32bppRgb);
             string fileToRead = Directory.GetCurrentDirectory() + "\\CubeTex2.obj";
             ObjReader oRead = new ObjReader();
             ObjFile meshes = oRead.ReadFromFile(fileToRead);
@@ -64,7 +64,7 @@ System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             Primitive plane3 = new Plane(new Vector3(0, -2.5f, 0), new Vector3(0, 1, 0));
             plane3.GetMaterial().diffuseColor = new Color(1, 1, 1);
-            plane3.GetMaterial().mirror = 0.9;
+            //plane3.GetMaterial().mirror = 0.9;
 
             Primitive plane4 = new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0));
             plane4.GetMaterial().diffuseColor = new Color(0.1, 1, .1);
@@ -87,13 +87,13 @@ System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             ball1.GetMaterial().shininess = 12;
             ball1.GetMaterial().mirror = 0;
             ball1.GetMaterial().refractive = 1;
-            ball1.GetMaterial().refractiveIndex = 0.5;
-            ball2.GetMaterial().diffuseColor = new Color(1.0, 1.0, 1.0);
+            ball1.GetMaterial().refractiveIndex = 3.5;
+            ball2.GetMaterial().diffuseColor = new Color(0, 1, 0);
             ball2.GetMaterial().specularColor = new Color(1.0, 1.0, 1.0);
             ball2.GetMaterial().shininess = 12;
             ball2.GetMaterial().mirror = 0.9;
             ball2.GetMaterial().refractive = 0;
-            ball2.GetMaterial().refractiveIndex = 0.5;
+            ball2.GetMaterial().refractiveIndex = 1.5;
             // Console.WriteLine(meshes.meshes[0].name);
             // Console.WriteLine(oRead.ReadFromFile(fileToRead).meshes.Count);
             Scene scene = new Scene();
@@ -102,27 +102,30 @@ System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             //   mesh.obj.Move(new Vector3(0, -1, 0));
             mesh.SetTextureForAllFaces(imagex);
             //  ball1.GetMaterial().texture = imagex;
-            scene.AddMeshForRendering(ref mesh);
+          
 
             scene.AddPrimitiveForRendering(ref ball1);
             scene.AddPrimitiveForRendering(ref ball2);
-
+            scene.AddMeshForRendering(ref mesh);
             scene.AddPrimitiveForRendering(ref plane1);
             scene.AddPrimitiveForRendering(ref plane2);
             scene.AddPrimitiveForRendering(ref plane3);
             scene.AddPrimitiveForRendering(ref plane4);
             scene.AddPrimitiveForRendering(ref plane5);
-        //    scene.AddPrimitiveForRendering(ref plane6);
+            //    scene.AddPrimitiveForRendering(ref plane6);
 
 
-            PointLight pl1 = new PointLight(new Vector3(-1, 0, 2), new Color(0.7, 0.7, 0.7));
-            PointLight pl0 = new PointLight(new Vector3(-0.5f, -0.5f, -1), new Color(0.5, 0.9, 0.5));
+            PointLight pl1 = new PointLight(new Vector3(-0.5f, -0.5f, -1), new Color(0.7, 0.7, 0.7));
+            PointLight pl0 = new PointLight(new Vector3(-1, 0, 2), new Color(0.9 , 0.9, 0.5));
+            PointLight pl12 = new PointLight(new Vector3(-1, 0, 6), new Color(0.9, 0.1, 0.9));
 
             //PointLight pl1 = new PointLight(new Vector3(1, 0, -1), new Color(1, 1, 1));
             //PointLight pl0 = new PointLight(new Vector3(-1, -0.5f, -1.5f), new Color(0.7, 0.7, 0.7));
-            scene.lights.Add(pl0);
             scene.lights.Add(pl1);
-
+            scene.lights.Add(pl0);
+  
+           // scene.lights.Add(pl12);
+           
             Ortho ort = new Ortho(new Vector3(-0.2f, -0.8f, -2f), new Vector3(0.1f, 0.1f, 1));
             ort.adaptiveDepth = 2;
 
@@ -130,7 +133,7 @@ System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Console.WriteLine("Zapisywanie do pliku obrazu z kamery ort");
             ort.RenderTo(ref image);
 
-             image.Save("D:\\Raytracer\\"  + "xd.jpg");
+            image.Save("D:\\Raytracer\\"  + "ortho.jpg");
             //  Perspective per = new Perspective(new Vector3(0.0f, 0.0f, 1.0f), new Vector3(0.0f, 0.0f, -3));
             Perspective per = new Perspective(new Vector3(-0.2f, -0.8f, -2f), new Vector3(0.1f, 0.1f, 1));
             per.Position = new Vector3(0, 0, -3);
@@ -141,7 +144,9 @@ System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Console.WriteLine("Zapisywanie do pliku obrazu z kamery per");
             per.RenderTo(ref image1);
 
-            image1.Save("D:\\Raytracer\\" + "qwrqr.jpg");
+            image1.Save("D:\\Raytracer\\" + "perpektywa.jpg");
+            Console.WriteLine((pl1.count+ pl0.count));
+            Console.WriteLine("Koniec");
             //ort.RenderTo(ref image, spheres);
             //per.RenderTo(image1, spheres);
 

@@ -23,6 +23,7 @@ namespace Raytracer
 
         public Scene()
         {
+            ambientColor = new Color(0.1, 0.1, 0.1);
         }
 
         public void SetObjectsForRendering(ref List<Primitive> objects)
@@ -32,11 +33,7 @@ namespace Raytracer
 
         public bool AddMeshForRendering(ref Mesh m)
         {
-            //if (meshes.Find(m => m.name.Contains))
-            //{
-            //	return false;
-            //}
-
+        
             meshes.Add(m);
             foreach (Face f in m.faces)
             {

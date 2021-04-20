@@ -12,6 +12,10 @@ namespace Raytracer
 		public String name = "Mesh";
 		public List<Face> faces = new List<Face>() ;
        public  ObjFile obj = new ObjFile();
+		/// <summary>
+		/// Add Face to mesh
+		/// </summary>
+		/// <param name="data">data table</param>
 		public void AddFace(int[,] data)
         {
 			Face f = new Face();
@@ -25,18 +29,15 @@ namespace Raytracer
 
 			f.UpdateTriangle();
 
-			//std::cout << "MESH" << std::endl;
-			for (int i = 0; i < 3; i++)
-			{
-				//std::cout << f->GetVertex(i)->ToString() << std::endl;
-			}
-
 			f.GetTriangle().GetMaterial().specularColor = new Color(1, 1, 1);
 			f.GetTriangle().GetMaterial().diffuseColor = Color.GetRandom(0,1); 
 			//f.GetTriangle().GetMaterial().diffuseColor = new Color(1, 1, 1); ;
 			faces.Add(f);
 		}
-
+		/// <summary>
+		/// well name speaks for itself
+		/// </summary>
+		/// <param name=" t">texture</param>
 		public void SetTextureForAllFaces(Bitmap t)
         {
 			foreach(Face f in faces) 
