@@ -89,14 +89,7 @@ namespace Raytracer
             HitInfo hi = new HitInfo();
             Primitive nearestHit = null;
              nearestHit = CastAtPrimitive(ref ray, ref hi);
-            //if (depth < 3)
-            //{
-            //    count++;
-            //    Console.WriteLine(count);
-
-            //}
-
-            // Console.WriteLine(depth);
+        
             if (nearestHit != null)
             {
 

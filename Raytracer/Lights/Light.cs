@@ -42,25 +42,10 @@ namespace Raytracer.Lights
            //   this.color.Show();
             double f = (-Lightdir).dot(normal);
 
-            //if (hitObject is Plane)
-            //{
-            //    Console.WriteLine("1");
-            //    mcolor.diffuse.Show();
-            //    Console.WriteLine("2");
-            //    hitObject.GetMaterial().diffuseColor.Show();
-            //    Console.WriteLine("3");
-            //    Console.WriteLine(f);
-            //    Console.WriteLine("4");
-            //}
-            //if (hitObject is Plane)
-            //    hitObject.GetMaterial().diffuseColor.Show();
+      
             //diffuse
             mcolor.diffuse = mcolor.diffuse * material.diffuseColor *color * (-Lightdir).dot(normal);
-            //if (!mcolor.diffuse.isZero())
-            //    mcolor.diffuse.Show();
-            //Console.WriteLine(Lightdir.ToString());
-            //Console.WriteLine("---------------");
-            //Console.WriteLine(normal);
+     
             //specular
             specForce = (LookDir).dot(Lightdir.Reflect(normal));
             
@@ -68,20 +53,7 @@ namespace Raytracer.Lights
      
             //    mcolor.specular.Show();
             mcolor.specular *=  material.specularColor * color * Math.Pow(specForce, material.shininess);
-            //if (!mcolor.specular.isZero() && !mcolor.specular.isOne())
-            //    mcolor.specular.Show();
-            //if (!mcolor.specular.isZero() && !mcolor.specular.isOne())
-            //{
-            //    Console.WriteLine("1");
-            //    mcolor.specular.Show();
-            //    Console.WriteLine("2");
-            //    material.specularColor.Show();
-            //    Console.WriteLine("3");
-            //    //Console.WriteLine(specForce);
-            //    //Console.WriteLine("4");
-            //    Console.WriteLine(Math.Pow(specForce, material.shininess));
 
-            //}
 
 
 

@@ -77,7 +77,7 @@ System.Drawing.Imaging.PixelFormat.Format32bppRgb);
             Primitive plane6 = new Plane(new Vector3(0, 0, -4), new Vector3(0, 0, 1));
             plane6.GetMaterial().diffuseColor = new Color(0.2, 0.2, 0.2);
 
-            Primitive ball1 = new Sphere(new Vector3(-1, -0.5f, 0), 0.8f);
+            Primitive ball1 = new Sphere(new Vector3(-1, -0.5f, 1.7f), 0.8f);
             Primitive ball2 = new Sphere(new Vector3(1, -0.5f, 1.7f), 0.8f);
 
 
@@ -85,13 +85,13 @@ System.Drawing.Imaging.PixelFormat.Format32bppRgb);
             ball1.GetMaterial().specularColor = new Color(1.0, 1.0, 1.0);
 
             ball1.GetMaterial().shininess = 12;
-            ball1.GetMaterial().mirror = 0;
-            ball1.GetMaterial().refractive = 1;
+            ball1.GetMaterial().mirror = 1;
+            ball1.GetMaterial().refractive = 0;
             ball1.GetMaterial().refractiveIndex = 3.5;
             ball2.GetMaterial().diffuseColor = new Color(0, 1, 0);
             ball2.GetMaterial().specularColor = new Color(1.0, 1.0, 1.0);
             ball2.GetMaterial().shininess = 12;
-            ball2.GetMaterial().mirror = 0.9;
+            ball2.GetMaterial().mirror = 1;
             ball2.GetMaterial().refractive = 0;
             ball2.GetMaterial().refractiveIndex = 1.5;
             // Console.WriteLine(meshes.meshes[0].name);
