@@ -80,7 +80,7 @@ System.Drawing.Imaging.PixelFormat.Format32bppRgb);
             Primitive ball1 = new Sphere(new Vector3(-1, -0.5f, 1.7f), 0.8f);
             Primitive ball2 = new Sphere(new Vector3(1, -0.5f, 1.7f), 0.8f);
 
-
+           
             ball1.GetMaterial().diffuseColor = new Color(1.0, 1.0, 1.0);
             ball1.GetMaterial().specularColor = new Color(1.0, 1.0, 1.0);
 

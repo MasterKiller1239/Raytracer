@@ -12,6 +12,7 @@ namespace Raytracer.Lights
     {
         public Vector3 position;
         public Color color;
+        public float intensity = 1;
         /// <summary>
         /// Light class constructor
         /// </summary>
@@ -67,19 +68,3 @@ namespace Raytracer.Lights
 
 
 }
-//if (specForce > 0)
-//    Console.WriteLine(specForce);
-//if (!mcolor.specular.isZero())
-//{
-//    Console.WriteLine("1");
-//    mcolor.specular.Show();
-//    Console.WriteLine("2");
-//    material.specularColor.Show();
-//    Console.WriteLine("3");
-//    Console.WriteLine(specForce);
-//}
-
-//Console.WriteLine(specForce);
-//Console.WriteLine("-------------------------");
-//Console.WriteLine(material.shininess); 
-//if (!mcolor.specular.isZero() && !mcolor.specular.isOne())

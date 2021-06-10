@@ -14,11 +14,11 @@ namespace Raytracer.Photon
 		public float[] direction = new float[3];//kierunek nadej?cia
 		public float[] energy = new float[3];
 		public double distance;//odleglosc od szukanego punktu
-        Photon()
+		public Photon()
         {
 
         }
-		Photon(Photon p)
+		public Photon(Photon p)
         {
 			for (int i = 0; i < 3; i++)
 			{

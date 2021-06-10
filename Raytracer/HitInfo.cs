@@ -10,7 +10,7 @@ namespace Raytracer
     {
 
         public Vector3 point =new Vector3();
-        public double distance = 10000000;
+        public double distance = 1000;
         public Vector3 uvw = new Vector3();
         public Vector3 normal = new Vector3();
     }
